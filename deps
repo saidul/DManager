@@ -1,6 +1,6 @@
 [symfony]
     git=http://github.com/symfony/symfony.git
-    version=v2.0.1
+    version=v2.0.4
 
 [twig]
     git=http://github.com/fabpot/Twig.git
@@ -12,32 +12,23 @@
 
 [doctrine-common]
     git=http://github.com/doctrine/common.git
-    version=2.1.1
+    version=2.1.2
 
 [doctrine-dbal]
     git=http://github.com/doctrine/dbal.git
-    version=2.1.1
+    version=2.1.3
 
 [doctrine]
     git=http://github.com/doctrine/doctrine2.git
-    version=2.1.1
-
-[doctrine-fixtures]
-    git=http://github.com/doctrine/data-fixtures.git
-
-[doctrine-mongodb-odm]
-    git=git://github.com/doctrine/mongodb-odm.git
-
-[doctrine-mongodb]
-    git=git://github.com/doctrine/mongodb.git
+    version=2.1.2
 
 [swiftmailer]
     git=http://github.com/swiftmailer/swiftmailer.git
-    version=v4.1.1
+    version=v4.1.2
 
 [assetic]
     git=http://github.com/kriswallsmith/assetic.git
-    version=v1.0.1
+    version=v1.0.2
 
 [twig-extensions]
     git=http://github.com/fabpot/Twig-extensions.git
@@ -53,10 +44,12 @@
 [JMSSecurityExtraBundle]
     git=http://github.com/schmittjoh/JMSSecurityExtraBundle.git
     target=/bundles/JMS/SecurityExtraBundle
+    version=origin/1.0.x
 
 [SensioDistributionBundle]
     git=http://github.com/sensio/SensioDistributionBundle.git
     target=/bundles/Sensio/Bundle/DistributionBundle
+    version=origin/1.0
 
 [SensioGeneratorBundle]
     git=http://github.com/sensio/SensioGeneratorBundle.git
@@ -65,25 +58,4 @@
 [AsseticBundle]
     git=http://github.com/symfony/AsseticBundle.git
     target=/bundles/Symfony/Bundle/AsseticBundle
-    version=v1.0.0
-
-[DoctrineFixturesBundle]
-    git=git://github.com/symfony/DoctrineFixturesBundle.git
-    target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
-
-[DoctrineMongoDBBundle]
-    git=git://github.com/symfony/DoctrineMongoDBBundle.git
-    target=/bundles/Symfony/Bundle/DoctrineMongoDBBundle
-
-[FOSUserBundle]
-    git=git://github.com/FriendsOfSymfony/FOSUserBundle.git
-    target=/bundles/FOS/UserBundle
-
-[facebook]
-    git=git://github.com/facebook/php-sdk
-
-[zend]
-    git=git://github.com/meze/zend-framework-twitter
-
-[wideimage]
-    git=git://github.com/meze/wideimage
+    version=v1.0.1
