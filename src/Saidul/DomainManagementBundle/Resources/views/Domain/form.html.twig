@@ -1,0 +1,15 @@
+{% extends "SaidulDomainManagementBundle::layout.html.twig" %}
+
+{% block title "Symfony - New Host" %}
+
+{% block body %}
+    <form action="{{ submit_url }}" method="POST" >
+        {{ form_errors(form) }}
+
+        {{ form_row(form.ip) }}
+        {{ form_row(form.host) }}
+
+        {{ form_rest(form) }}
+        <input type="submit" value="Send" class="symfony-button-grey" />
+    </form>
+{% endblock %}

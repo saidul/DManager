@@ -1,0 +1,9 @@
+{% extends "SaidulDomainManagementBundle::layout.html.twig" %}
+
+{%block body%}
+<ul>
+{%for ditem in dlist%}
+<li>{{ditem.ip}} - {{ditem.host}}</li>
+{%endfor%}
+    </ul>
+{%endblock%}
