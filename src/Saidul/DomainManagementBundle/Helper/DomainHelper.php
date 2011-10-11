@@ -6,7 +6,7 @@ namespace Saidul\DomainManagementBundle\Helper;
  */
 
 /**
- * Description of DomainHelper
+ * Domain helper will provide the methods for managing domain entries in windows hosts file.
  *
  * @author TOSHIBA
  */
@@ -14,6 +14,10 @@ class DomainHelper {
     //put your code here
     private static $hostFile = "C:\\Windows\\System32\\drivers\\etc\\hosts";
     
+    /**
+     * returns an array of ip/domain pair
+     * @return array
+     */
     public static function findAllDomains(){
         $content = file_get_contents(DomainHelper::$hostFile);
         
