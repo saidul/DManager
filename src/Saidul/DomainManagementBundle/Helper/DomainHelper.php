@@ -36,6 +36,11 @@ class DomainHelper {
         return $lines;
     }
     
+    /**
+     * Adds a new domain record into the host file
+     * @param type $host
+     * @param type $ip 
+     */
     public static function addDomain($host,$ip="127.0.0.1"){
         $content = file_get_contents(DomainHelper::$hostFile);
         
