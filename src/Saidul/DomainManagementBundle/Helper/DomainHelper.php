@@ -10,12 +10,11 @@ namespace Saidul\DomainManagementBundle\Helper;
  *
  * @author TOSHIBA
  */
-class DomainHelper {
-    //put your code here
+class DomainHelper {        
     private static $hostFile = "C:\\Windows\\System32\\drivers\\etc\\hosts";
     
     /**
-     * returns an array of ip/domain pair
+     * returns an array of ip and their corresponding domain name they belongs to
      * @return array
      */
     public static function findAllDomains(){
