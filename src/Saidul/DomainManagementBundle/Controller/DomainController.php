@@ -18,7 +18,7 @@ class DomainController extends Controller {
      */
     public function indexAction(){
         
-        return new Response("Hello World");
+        return $this->redirect("_domain_list");
     }
     
         
