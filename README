@@ -1,8 +1,8 @@
-Hello World!!
+
 
 Installation:
 =============
-```ssh
+```
 $ cd path/to/your/web/root
 $ git clone git://github.com/saidul/DManager.git
 $ cd DManager
