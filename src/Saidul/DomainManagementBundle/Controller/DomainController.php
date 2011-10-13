@@ -28,6 +28,7 @@ class DomainController extends Controller {
      */
     public function listAction(){
         $list = DomainHelper::findAllDomains();
+        //echo "<pre>"; print_r($list); die();
         return $this->render("SaidulDomainManagementBundle:Domain:list.html.twig",array(
             'dlist'=>$list,
         ));
@@ -55,6 +56,33 @@ class DomainController extends Controller {
                 'form' => $form->createView(),
                 'submit_url' => $this->generateUrl('_domain_new')
         ));
+    }
+    
+    /**
+     * @Route("/delete", name="_domain_delete")
+     * @return Response 
+     */
+    public function deleteAction(){
+        //$list = DomainHelper::findAndRemoveDomains();
+        //echo "<pre>"; print_r($list); die();
+        
+        $form = $this->get('form.factory')->create(new DomainType());
+        $request = $this->get('request');
+        
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $data = $form->getData();
+                DomainHelper::findAndRemoveDomains($data['host'], $data['ip']);
+                return new RedirectResponse($this->generateUrl('_domain_list'));
+            }
+        }
+        
+        return $this->render("SaidulDomainManagementBundle:Domain:form.html.twig",array(
+                'form' => $form->createView(),
+                'submit_url' => $this->generateUrl('_domain_delete')
+        ));
+        
     }
 }
 
