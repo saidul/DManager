@@ -3,7 +3,7 @@
 {%block body%}
 <ul>
 {%for ditem in dlist%}
-<li>{{ditem.ip}} - {{ditem.host}}</li>
+<li>{{ditem.ip}} - {{ditem.host}} <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a> </li>
 {%endfor%}
     </ul>
 {%endblock%}

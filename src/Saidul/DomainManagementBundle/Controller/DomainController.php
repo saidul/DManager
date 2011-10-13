@@ -18,7 +18,7 @@ class DomainController extends Controller {
      */
     public function indexAction(){
         
-        return $this->redirect("_domain_list");
+        return $this->redirect($this->generateUrl('_domain_list'));
     }
     
         
@@ -48,7 +48,7 @@ class DomainController extends Controller {
             if ($form->isValid()) {
                 $data = $form->getData();
                 DomainHelper::addDomain($data['host'], $data['ip']);
-                return new RedirectResponse($this->generateUrl('_domain_list'));
+                return $this->redirect($this->generateUrl('_domain_list'));
             }
         }
 
@@ -57,7 +57,24 @@ class DomainController extends Controller {
                 'submit_url' => $this->generateUrl('_domain_new')
         ));
     }
-    
+
+    /**
+     * @Route("/delete/{idx}", name="_domain_delete_id")
+     * @param $idx
+     * @return Response
+     */
+    public function deleteByIdAction($idx){
+        /** @var $session \Symfony\Component\HttpFoundation\Session */
+        $session = $this->get('session');
+
+        if(DomainHelper::removeRecordByIdx($idx)){
+            $session->setFlash('sMSG','The Item has been deleted');
+        }else{
+            $session->setFlash('eMSG','Can not process your request');
+        }
+        return $this->redirect($this->generateUrl('_domain_list'));
+    }
+
     /**
      * @Route("/delete", name="_domain_delete")
      * @return Response 
