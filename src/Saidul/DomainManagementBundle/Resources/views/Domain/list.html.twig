@@ -3,7 +3,12 @@
 {%block body%}
 <ul>
 {%for ditem in dlist%}
-<li>{{ditem.ip}} - {{ditem.host}} <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a> </li>
+<li>
+    {{ditem.ip}} - {{ditem.host}} 
+    <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a> 
+    <a href="#">Edit</a>
+</li>
+
 {%endfor%}
     </ul>
 {%endblock%}
