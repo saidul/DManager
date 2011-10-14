@@ -1,6 +1,7 @@
 {% extends "SaidulDomainManagementBundle::layout.html.twig" %}
 
 {%block body%}
+<a href="{{path('_domain_new')}}">Add New Record</a>
 <ul>
 {%for ditem in dlist%}
 <li>
