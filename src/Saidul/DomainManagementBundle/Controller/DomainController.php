@@ -31,6 +31,8 @@ class DomainController extends Controller {
         //echo "<pre>"; print_r($list); die();
         return $this->render("SaidulDomainManagementBundle:Domain:list.html.twig",array(
             'dlist'=>$list,
+            'sMsg'=> $this->get('session')->getFlash('sMsg'),
+            'eMsg'=> $this->get('session')->getFlash('eMsg'),
         ));
     }
  
@@ -47,7 +49,10 @@ class DomainController extends Controller {
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $data = $form->getData();
-                DomainHelper::addDomain($data['host'], $data['ip']);
+                if(DomainHelper::addDomain($data['host'], $data['ip']) == true )
+                    $this->get('session')->setFlash('sMsg','New record has been added.');
+                else
+                    $this->get('session')->setFlash('eMsg','Could not add new host');
                 return $this->redirect($this->generateUrl('_domain_list'));
             }
         }
@@ -68,9 +73,9 @@ class DomainController extends Controller {
         $session = $this->get('session');
 
         if(DomainHelper::removeRecordByIdx($idx)){
-            $session->setFlash('sMSG','The Item has been deleted');
+            $session->setFlash('sMsg','The Item has been deleted');
         }else{
-            $session->setFlash('eMSG','Can not process your request');
+            $session->setFlash('eMsg','Can not process your request');
         }
         return $this->redirect($this->generateUrl('_domain_list'));
     }

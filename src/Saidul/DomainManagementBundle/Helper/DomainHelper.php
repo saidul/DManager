@@ -118,7 +118,7 @@ class DomainHelper {
      * Adds a new domain record into the host file
      * @param type $host
      * @param string $ip
-     *
+     * @return boolean
      */
     public static function addDomain($host,$ip="127.0.0.1"){
         $content = file_get_contents(DomainHelper::$hostFile);
@@ -127,7 +127,7 @@ class DomainHelper {
         $lines[] = "{$ip}\t{$host}";
         
         $content = implode("\r\n",$lines);
-        file_put_contents(DomainHelper::$hostFile, $content);
+        return file_put_contents(DomainHelper::$hostFile, $content);
     }
     
 }
