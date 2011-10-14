@@ -10,7 +10,6 @@ use Saidul\DomainManagementBundle\Form\DomainType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class DomainController extends Controller {
-    //put your code here
     
     /**
      * @Route("/", name="_domain_index")
