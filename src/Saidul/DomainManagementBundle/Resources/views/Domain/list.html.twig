@@ -7,7 +7,7 @@
 <li>
     {{ditem.ip}} - {{ditem.host}} 
     <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a> 
-    <a href="#">Edit</a>
+    <a href="{{ path('_domain_edit_id',{'idx':loop.index0})}}">Edit</a>
 </li>
 
 {%endfor%}

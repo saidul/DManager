@@ -3,7 +3,7 @@
 {% block title "Symfony - New Host" %}
 
 {% block body %}
-    <form action="{{ submit_url }}" method="POST" >
+    <form action="{{ submit_url }}" method="POST" onsubmit="return validForm();">
         {{ form_errors(form) }}
 
         {{ form_row(form.ip) }}

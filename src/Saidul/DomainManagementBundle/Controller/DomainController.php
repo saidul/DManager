@@ -105,6 +105,43 @@ class DomainController extends Controller {
         ));
         
     }
+    
+    
+    
+    /**
+     * @Route("/edit", name="_domain_edit_id")
+     * @param $idx
+     * @param $host
+     * @param string $ip
+     * @return Response 
+     */
+    public function editByIdAction(){
+        /* @var $form \Symfony\Component\Form\Form */
+        /** @var $session \Symfony\Component\HttpFoundation\Session */
+        
+         $form = $this->get('form.factory')->create(new DomainType());
+        $request = $this->get('request');
+        
+        $session = $this->get('session');
+        
+        
+        if ('POST' == $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $data = $form->getData();
+                if(DomainHelper::updateDomainRecordByIndex(3, $data['host'], $data['ip'])){
+                    $session->setFlash('sMsg',"Data Updated");
+                }
+                 
+                return new RedirectResponse($this->generateUrl('_domain_list'));
+            }
+        }
+
+        return $this->render("SaidulDomainManagementBundle:Domain:form.html.twig",array(
+                'form' => $form->createView(),
+                'submit_url' => $this->generateUrl('_domain_edit_id')
+        ));
+    }
 }
 
 ?>
