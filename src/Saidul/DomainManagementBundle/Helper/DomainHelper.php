@@ -1,14 +1,10 @@
 <?php
 namespace Saidul\DomainManagementBundle\Helper;
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Domain helper will provide the methods for managing domain entries in windows hosts file.
  *
- * @author TOSHIBA
+ * @author Saidul, Nizam
  */
 class DomainHelper {        
     private static $hostFile = "C:\\Windows\\System32\\drivers\\etc\\hosts";

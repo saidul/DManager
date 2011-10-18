@@ -105,15 +105,14 @@ class DomainController extends Controller {
         ));
         
     }
-    
-    
-    
+
+
     /**
-     * @Route("/edit/{$idx}", name="_domain_edit_id")
+     * @Route("/edit/{idx}", name="_domain_edit_id")
      * @param $idx
-     * @return Response 
+     * @return Response
      */
-    public function editByIdAction($idx){
+    public function editAction($idx){
         /* @var $form \Symfony\Component\Form\Form */
         /** @var $session \Symfony\Component\HttpFoundation\Session */
         
@@ -121,7 +120,10 @@ class DomainController extends Controller {
         $request = $this->get('request');
         
         $session = $this->get('session');
-        
+
+        $dlist = DomainHelper::findAllDomains();
+        if(isset($dlist[$idx])) $form->setData($dlist[$idx]);
+        else throw new NotFoundHttpException("Domain Not found");
         
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
@@ -137,7 +139,7 @@ class DomainController extends Controller {
 
         return $this->render("SaidulDomainManagementBundle:Domain:form.html.twig",array(
                 'form' => $form->createView(),
-                'submit_url' => $this->generateUrl('_domain_edit_id')
+                'submit_url' => $this->generateUrl('_domain_edit_id',array('idx'=>$idx))
         ));
     }
 }
