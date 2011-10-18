@@ -109,13 +109,11 @@ class DomainController extends Controller {
     
     
     /**
-     * @Route("/edit", name="_domain_edit_id")
+     * @Route("/edit/{$idx}", name="_domain_edit_id")
      * @param $idx
-     * @param $host
-     * @param string $ip
      * @return Response 
      */
-    public function editByIdAction(){
+    public function editByIdAction($idx){
         /* @var $form \Symfony\Component\Form\Form */
         /** @var $session \Symfony\Component\HttpFoundation\Session */
         
@@ -129,7 +127,7 @@ class DomainController extends Controller {
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $data = $form->getData();
-                if(DomainHelper::updateDomainRecordByIndex(3, $data['host'], $data['ip'])){
+                if(DomainHelper::updateDomainRecordByIndex($idx, $data['host'], $data['ip'])){
                     $session->setFlash('sMsg',"Data Updated");
                 }
                  
