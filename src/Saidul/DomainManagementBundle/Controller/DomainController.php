@@ -27,9 +27,25 @@ class DomainController extends Controller {
      */
     public function listAction(){
         $list = DomainHelper::findAllDomains();
+        $dirPath = $this->container->getParameter('domain_root_dir');
+        $rootDirObj = dir($dirPath);
+        $exisingDomainDirs = array();
+        while (false !== ($entry = $rootDirObj->read())) {
+            if($entry == '.' || $entry == '..') continue;
+           $exisingDomainDirs[$entry] = 1;
+        }
+        $rootDirObj->close();
+
+        foreach($list as &$record){
+            if(preg_match('/[\w\-\.]+.localhost.com/i',$record['host'])){
+                $record['dir_exist'] = file_exists("{$dirPath}/{$record['host']}");
+                if(isset($exisingDomainDirs[$record['host']])) unset($exisingDomainDirs[$record['host']]);
+            }
+        }
         //echo "<pre>"; print_r($list); die();
         return $this->render("SaidulDomainManagementBundle:Domain:list.html.twig",array(
             'dlist'=>$list,
+            'danglingDirs' => $exisingDomainDirs,
             'sMsg'=> $this->get('session')->getFlash('sMsg'),
             'eMsg'=> $this->get('session')->getFlash('eMsg'),
         ));
@@ -44,12 +60,25 @@ class DomainController extends Controller {
         $form = $this->get('form.factory')->create(new DomainType());
         $request = $this->get('request');
         
+
+        
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $data = $form->getData();
-                if(DomainHelper::addDomain($data['host'], $data['ip']) == true )
+                if(DomainHelper::addDomain($data['host'], $data['ip']) == true ){
                     $this->get('session')->setFlash('sMsg','New record has been added.');
+
+                    $dirPath = $this->container->getParameter('domain_root_dir');
+                    if(preg_match('/[\w\-\.]+.localhost.com/i',$data['host']) && file_exists($dirPath) && !file_exists($dirPath."/{$data['host']}")){
+                        mkdir($dirPath."/{$data['host']}/web",0777,true); // recursively create directory
+                        $sampleFileData = $this->renderView("SaidulDomainManagementBundle:Domain:sampleIndex.html.twig",array(
+                            'domain' => $data['host']
+                        ));
+
+                        file_put_contents($dirPath."/{$data['host']}/web/index.html",$sampleFileData);
+                    }
+                }
                 else
                     $this->get('session')->setFlash('eMsg','Could not add new host');
                 return $this->redirect($this->generateUrl('_domain_list'));
@@ -124,6 +153,9 @@ class DomainController extends Controller {
         $dlist = DomainHelper::findAllDomains();
         if(isset($dlist[$idx])) $form->setData($dlist[$idx]);
         else throw new NotFoundHttpException("Domain Not found");
+
+        $dirPath = $this->container->getParameter('domain_root_dir');
+        $oldDirName = "{$dirPath}/{$dlist[$idx]['host']}";
         
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
@@ -131,6 +163,10 @@ class DomainController extends Controller {
                 $data = $form->getData();
                 if(DomainHelper::updateDomainRecordByIndex($idx, $data['host'], $data['ip'])){
                     $session->setFlash('sMsg',"Data Updated");
+                    $newDirName = "{$dirPath}/{$data['host']}";
+                    if(preg_match('/[\w\-\.]+.localhost.com/i',$data['host']) && file_exists($oldDirName))
+                        rename($oldDirName,$newDirName);
+
                 }
                  
                 return new RedirectResponse($this->generateUrl('_domain_list'));

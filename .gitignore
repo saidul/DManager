@@ -5,5 +5,5 @@ web/bundles/*
 dev.log
 vendor/*
 /nbproject/*
-app/bootstrap.php.cache
-app/bootstrap_cache.php.cache
+app/bootstrap*
+app/config/parameters.ini

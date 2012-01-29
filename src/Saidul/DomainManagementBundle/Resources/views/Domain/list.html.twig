@@ -5,9 +5,22 @@
 <ul>
 {%for ditem in dlist%}
 <li>
-    {{ditem.ip}} - {{ditem.host}} 
+    {{ditem.ip}} - {{ditem.host}}
+    {%if ditem.dir_exist is defined and ditem.dir_exist == false %}<span style="color:red;">Directory missing</span>{%endif%}
     <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a> 
     <a href="{{ path('_domain_edit_id',{'idx':loop.index0})}}">Edit</a>
+</li>
+
+{%endfor%}
+    </ul>
+
+<h3>
+Dangling Domain Directories (No record in host file):
+</h3>
+<ul>
+{%for dir in danglingDirs|keys %}
+<li>
+    {{dir}} <a href="javascript:alert('Implement it or do it yourself')">Create Record</a>
 </li>
 
 {%endfor%}
