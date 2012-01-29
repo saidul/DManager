@@ -1,7 +1,120 @@
+/** Use some sort of reset **/
+h1{ margin: 0; padding: 0;}
+
+body{
+    font-family: Arial;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    background: #f8f8f8;
+}
+
+.header{
+    background: black;
+    padding: 45px 40px;
+    color: white;
+}
+.header h1{
+    text-shadow: 0px 0px 8px #959595;
+}
+.wrapper{
+    width: 960px;
+    margin: 0 auto;
+    padding: 10px;
+    border-color: #ddd;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    background: white;
+    font-size: 12px;
+    position: relative;
+    border-radius: 0 0 10px 10px;
+}
+
+
 .successMsg{
-    color:green;
+    color:#00620C;
+    background: #e6fbF2;
+    border: 1px solid #93d8A1;
+    padding: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .errorMsg{
-    color:red;
+    margin-bottom: 10px;
+    color:#A70000;
+    background: #FBE6F2;
+    border: 1px solid #D893A1;
+    font-weight: bold;
+    padding: 10px;
+
+}
+
+
+ul.domainList{
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.domainList li.odd{
+    background: #f9f9f9;
+}
+ul.domainList li.even{
+    background: #f0f0f0;
+}
+ul.domainList li:hover{
+    background: #efe;
+}
+.column-ip, .column-host, .column-action{
+    display: inline-block;
+    padding: 7px 0 7px 5px;
+}
+
+.column-ip{
+    width: 15%;
+}
+.column-host{
+    width: 65%
+}
+.column-action{
+    width: 15%;
+    float: right;
+    padding-right: 5px;
+    text-align: right;
+    display: none;
+}
+
+.column-host a{
+    text-decoration: none;
+}
+.column-host a.error{
+    color: #808080;
+}
+
+ul.domainList li:hover .column-action{
+    display: inline-block;
+}
+
+.button{
+    display: inline-block;
+    padding: 8px;
+    text-decoration: none;
+    border: 1px solid #E5E5E5;
+    font-weight: bold;
+    background-color: #FEFEFE;
+    zoom: 1; /** IE inline block **/
+}
+
+.button:hover{
+    background-color: #F3F3F3;
+}
+
+
+#addRecordMiniForm{
+    border: 1px solid #DDD;
+    background: #F8F8F8;
+    padding: 10px;
+    margin: 10px 0;
+    display: none;
 }

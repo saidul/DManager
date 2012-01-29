@@ -26,6 +26,7 @@ class DomainController extends Controller {
      * @return Response 
      */
     public function listAction(){
+        $form = $this->get('form.factory')->create(new DomainType());
         $list = DomainHelper::findAllDomains();
         $dirPath = $this->container->getParameter('domain_root_dir');
         $rootDirObj = dir($dirPath);
@@ -38,8 +39,11 @@ class DomainController extends Controller {
 
         foreach($list as &$record){
             if(preg_match('/[\w\-\.]+.localhost.com/i',$record['host'])){
+                $record['local'] = true;
                 $record['dir_exist'] = file_exists("{$dirPath}/{$record['host']}");
                 if(isset($exisingDomainDirs[$record['host']])) unset($exisingDomainDirs[$record['host']]);
+            }else{
+                $record['local'] = false;
             }
         }
         //echo "<pre>"; print_r($list); die();
@@ -48,6 +52,7 @@ class DomainController extends Controller {
             'danglingDirs' => $exisingDomainDirs,
             'sMsg'=> $this->get('session')->getFlash('sMsg'),
             'eMsg'=> $this->get('session')->getFlash('eMsg'),
+            'form' => $form->createView(),
         ));
     }
  

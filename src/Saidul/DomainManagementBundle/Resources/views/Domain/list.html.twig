@@ -1,14 +1,37 @@
 {% extends "SaidulDomainManagementBundle::layout.html.twig" %}
 
 {%block body%}
-<a href="{{path('_domain_new')}}">Add New Record</a>
-<ul>
+<a id="addRecordBtn" class="button" href="{{path('_domain_new')}}">Add New Record</a>
+<a id="toggleNonlocalBtn" class="button" href="javascript: void(0)">Toggle Non-locals</a>
+
+<div id="addRecordMiniForm">
+    <form action="{{ path('_domain_new') }}" method="POST">
+    {{ form_errors(form) }}
+
+    IP: {{ form_widget(form.ip) }}
+    HOST: {{ form_widget(form.host) }}
+
+    {{ form_rest(form) }}
+    <input type="submit" value="Save"/>
+</form>
+</div>
+
+<ul class="domainList">
 {%for ditem in dlist%}
-<li>
-    {{ditem.ip}} - {{ditem.host}}
-    {%if ditem.dir_exist is defined and ditem.dir_exist == false %}<span style="color:red;">Directory missing</span>{%endif%}
-    <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a> 
-    <a href="{{ path('_domain_edit_id',{'idx':loop.index0})}}">Edit</a>
+<li class="{{loop.index is odd?"odd":"even"}}">
+    <div class="column-ip">{{ditem.ip}}</div>
+    <div class="column-host">
+        {%if ditem.local == true %}
+        <a class="{{ditem.dir_exist?"":"error"}}" target="_blank" href="http://{{ditem.host}}"> {{ditem.host}} </a> {%if  ditem.dir_exist == false %}<span style="color:red;float:right;font-weight: bold;">Directory missing</span>{%endif%}
+        {%else%}
+        {{ditem.host}}
+        {%endif%}
+
+    </div>
+    <div class="column-action">
+        <a href="{{ path('_domain_edit_id',{'idx':loop.index0})}}">Edit</a>
+        <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a>
+    </div>
 </li>
 
 {%endfor%}
