@@ -64,12 +64,12 @@ ul.domainList li.even{
     background: #f0f0f0;
 }
 ul.domainList li:hover{
-    background: #efe;
+    background: #afe;
 }
 
 ul.domainList li{
     -webkit-transition-property: background;
-    -webkit-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.8s;
 }
 .column-ip, .column-host, .column-action{
     display: inline-block;
@@ -87,7 +87,9 @@ ul.domainList li{
     float: right;
     padding-right: 5px;
     text-align: right;
-    display: none;
+    display: inline-block;
+    opacity: 0;
+    -webkit-transition: opacity 1.2s;
 }
 
 .column-host a{
@@ -98,7 +100,7 @@ ul.domainList li{
 }
 
 ul.domainList li:hover .column-action{
-    display: inline-block;
+    opacity: 1;
 }
 
 .button{
