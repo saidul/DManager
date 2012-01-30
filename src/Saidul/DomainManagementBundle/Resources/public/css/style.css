@@ -66,6 +66,11 @@ ul.domainList li.even{
 ul.domainList li:hover{
     background: #efe;
 }
+
+ul.domainList li{
+    -webkit-transition-property: background;
+    -webkit-transition-duration: 0.5s;
+}
 .column-ip, .column-host, .column-action{
     display: inline-block;
     padding: 7px 0 7px 5px;
