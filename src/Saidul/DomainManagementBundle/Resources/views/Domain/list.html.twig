@@ -19,8 +19,8 @@
 <ul class="domainList">
 {%for ditem in dlist%}
 <li class="{{loop.index is odd?"odd":"even"}}">
-    <div class="column-ip">{{ditem.ip}}</div>
-    <div class="column-host">
+    <div class="column-ip">{{ditem.disabled?'# ':' '}}{{ditem.ip}}</div>
+    <div class="column-host" title="{{ditem.comment}}">
         {%if ditem.local == true %}
         <a class="{{ditem.dir_exist?"":"error"}}" target="_blank" href="http://{{ditem.host}}"> {{ditem.host}} </a> {%if  ditem.dir_exist == false %}<span style="color:red;float:right;font-weight: bold;">Directory missing</span>{%endif%}
         {%else%}
@@ -29,8 +29,8 @@
 
     </div>
     <div class="column-action">
-        <a href="{{ path('_domain_edit_id',{'idx':loop.index0})}}">Edit</a>
-        <a href="{{ path('_domain_delete_id',{'idx':loop.index0})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a>
+        <a href="{{ path('_domain_edit_id',{'idx':ditem.host})}}">Edit</a>
+        <a href="{{ path('_domain_delete_id',{'idx':ditem.host})}}" onclick="javascript: return confirm('Are you sure to delete this?');">Delete</a>
     </div>
 </li>
 

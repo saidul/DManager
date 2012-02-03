@@ -38,12 +38,9 @@ class DomainController extends Controller {
         $rootDirObj->close();
 
         foreach($list as &$record){
-            if(preg_match('/[\w\-\.]+.localhost.com/i',$record['host'])){
-                $record['local'] = true;
+            if($record['local'] == true){
                 $record['dir_exist'] = file_exists("{$dirPath}/{$record['host']}");
                 if(isset($exisingDomainDirs[$record['host']])) unset($exisingDomainDirs[$record['host']]);
-            }else{
-                $record['local'] = false;
             }
         }
         //echo "<pre>"; print_r($list); die();
@@ -105,7 +102,7 @@ class DomainController extends Controller {
         /** @var $session \Symfony\Component\HttpFoundation\Session */
         $session = $this->get('session');
 
-        if(DomainHelper::removeRecordByIdx($idx)){
+        if(DomainHelper::removeRecordByHostName($idx)){
             $session->setFlash('sMsg','The Item has been deleted');
         }else{
             $session->setFlash('eMsg','Can not process your request');
@@ -113,36 +110,9 @@ class DomainController extends Controller {
         return $this->redirect($this->generateUrl('_domain_list'));
     }
 
-    /**
-     * @Route("/delete", name="_domain_delete")
-     * @return Response 
-     */
-    public function deleteAction(){
-        //$list = DomainHelper::findAndRemoveDomains();
-        //echo "<pre>"; print_r($list); die();
-        
-        $form = $this->get('form.factory')->create(new DomainType());
-        $request = $this->get('request');
-        
-        if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $data = $form->getData();
-                DomainHelper::findAndRemoveDomains($data['host'], $data['ip']);
-                return new RedirectResponse($this->generateUrl('_domain_list'));
-            }
-        }
-        
-        return $this->render("SaidulDomainManagementBundle:Domain:form.html.twig",array(
-                'form' => $form->createView(),
-                'submit_url' => $this->generateUrl('_domain_delete')
-        ));
-        
-    }
-
 
     /**
-     * @Route("/edit/{idx}", name="_domain_edit_id")
+     * @Route("/{idx}/edit", name="_domain_edit_id")
      * @param $idx
      * @return Response
      */
@@ -150,23 +120,23 @@ class DomainController extends Controller {
         /* @var $form \Symfony\Component\Form\Form */
         /** @var $session \Symfony\Component\HttpFoundation\Session */
         
-         $form = $this->get('form.factory')->create(new DomainType());
+        $form = $this->get('form.factory')->create(new DomainType());
         $request = $this->get('request');
         
         $session = $this->get('session');
 
-        $dlist = DomainHelper::findAllDomains();
-        if(isset($dlist[$idx])) $form->setData($dlist[$idx]);
+        $hostInfo = DomainHelper::getInfoByHostName($idx);
+        if(null !== $hostInfo) $form->setData($hostInfo);
         else throw new NotFoundHttpException("Domain Not found");
 
         $dirPath = $this->container->getParameter('domain_root_dir');
-        $oldDirName = "{$dirPath}/{$dlist[$idx]['host']}";
+        $oldDirName = "{$dirPath}/{$hostInfo['host']}";
         
         if ('POST' == $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $data = $form->getData();
-                if(DomainHelper::updateDomainRecordByIndex($idx, $data['host'], $data['ip'])){
+                if(DomainHelper::updateDomainRecordByHostName($idx, $data['host'], $data['ip'])){
                     $session->setFlash('sMsg',"Data Updated");
                     $newDirName = "{$dirPath}/{$data['host']}";
                     if(preg_match('/[\w\-\.]+.localhost.com/i',$data['host']) && file_exists($oldDirName))
